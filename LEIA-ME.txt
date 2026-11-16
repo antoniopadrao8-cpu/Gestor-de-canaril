@@ -1,0 +1,15 @@
+# Gestor de Canaril — pacote instalável
+
+Este pacote prepara o protótipo como uma PWA (aplicação web instalável).
+
+## Para instalar no telemóvel e computador
+1. Publique o conteúdo desta pasta num alojamento web com HTTPS.
+2. Abra o endereço publicado no Chrome ou Edge.
+3. No Android: use o botão **Instalar aplicação** quando aparecer, ou menu ⋮ > **Instalar aplicação / Adicionar ao ecrã inicial**.
+4. No computador: use o ícone de instalação na barra de endereço ou o menu do navegador > **Instalar Gestor de Canaril**.
+
+## Importante
+- A instalação PWA exige um endereço HTTPS (ou localhost para testes). Abrir o ficheiro HTML diretamente não permite instalar a aplicação.
+- Esta versão guarda os registos localmente no navegador/dispositivo. Ainda não tem contas, sincronização cloud ou base de dados partilhada.
+- O service worker permite abrir a estrutura da aplicação offline depois da primeira visita online.
+- Antes de usar com dados reais, faça cópias de segurança. A versão cloud multiutilizador será uma fase posterior.

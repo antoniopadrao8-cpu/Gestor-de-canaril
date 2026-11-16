@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#183c32">
+<meta name="description" content="Gestão, seleção e evolução das tuas linhagens de canários.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Gestor de Canaril — Protótipo</title>
+<style>
+:root{--green:#183c32;--green2:#285747;--cream:#f5f4ee;--card:#fff;--ink:#202923;--muted:#6c786f;--line:#e4e8e1;--gold:#d7b45b}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--green);color:white;padding:22px max(20px,calc((100vw - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}header h1{font-size:23px;margin:0;letter-spacing:.2px}header p{margin:4px 0 0;color:#d8e5dc;font-size:13px}.tag{border:1px solid #789487;color:#eaf2ec;border-radius:30px;padding:7px 12px;font-size:12px;white-space:nowrap}
+main{max-width:1120px;margin:26px auto;padding:0 18px}.welcome{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.welcome h2{margin:0;font-size:25px}.welcome p{margin:5px 0 0;color:var(--muted)}button{border:0;border-radius:10px;padding:11px 15px;background:var(--green2);color:#fff;font-weight:650;cursor:pointer}button.secondary{background:#edf1ec;color:var(--green)}button.danger{background:#f8e9e5;color:#9b3929}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat,.panel,.bird-card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:17px}.stat span{color:var(--muted);font-size:13px}.stat strong{display:block;font-size:27px;margin-top:3px;color:var(--green)}.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.panel h3{margin:0 0 14px;font-size:17px}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.toolbar input,.toolbar select,input,select,textarea{border:1px solid var(--line);border-radius:9px;padding:10px;background:white;color:var(--ink);font:inherit;width:100%}.toolbar input{flex:1;min-width:170px}.toolbar select{width:auto;min-width:130px}.bird-list{display:grid;gap:10px}.bird-card{display:flex;align-items:center;gap:13px;padding:12px}.avatar{width:54px;height:54px;border-radius:12px;background:#e8eee6;display:grid;place-items:center;font-size:27px;flex:none}.bird-info{flex:1;min-width:0}.bird-info strong{display:block}.bird-info small{color:var(--muted)}.bird-score{font-weight:750;color:var(--green);white-space:nowrap}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #cbd4ca;border-radius:12px}.quick{display:grid;gap:10px}.quick button{display:flex;justify-content:space-between;align-items:center;text-align:left;padding:14px 15px}.quick button span{font-weight:400;font-size:12px;opacity:.8}.notice{margin-top:16px;background:#fff8e7;border:1px solid #eee0b9;border-radius:12px;padding:13px 15px;color:#69552a;font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#10251f99;z-index:5;padding:20px;overflow:auto}.modal.open{display:block}.dialog{max-width:760px;margin:25px auto;background:white;border-radius:17px;padding:22px}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.dialog h2{margin:0;font-size:21px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:650}.field.full{grid-column:1/-1}.scoregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.scoregrid input{padding:8px}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.close{background:#edf1ec;color:var(--green);padding:7px 11px}.subhead{font-size:14px;margin:18px 0 9px;color:var(--green)}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.welcome{align-items:start;flex-direction:column}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.scoregrid{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start;flex-direction:column}}
+</style></head>
+<body>
+<header><div><h1>🐤 Gestor de Canaril</h1><p>Gestão, seleção e evolução das tuas linhagens</p></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<button id="installBtn" class="secondary" style="display:none;background:#eaf2ec;color:#183c32">＋ Instalar aplicação</button>
+<div class="tag">Acesso rápido · versão inicial</div>
+</div></header>
+<main>
+<section class="welcome"><div><h2>O meu canaril</h2><p>Bem-vindo. Começa por registar os teus exemplares.</p></div><button id="addTop">＋ Registar ave</button></section>
+<section class="stats"><div class="stat"><span>Total de aves</span><strong id="total">0</strong></div><div class="stat"><span>Yorkshire</span><strong id="york">0</strong></div><div class="stat"><span>Border</span><strong id="border">0</strong></div><div class="stat"><span>Reprodutores</span><strong id="breeders">0</strong></div></section>
+<section class="layout"><div class="panel"><h3>Os meus exemplares</h3><div class="toolbar"><input id="search" placeholder="Pesquisar código, anilha ou nome…"><select id="breedFilter"><option value="Todas">Todas as raças</option><option>Yorkshire</option><option>Border</option><option>Outra</option></select></div><div id="birds" class="bird-list"><div class="empty">Ainda não tens aves registadas.</div></div></div>
+<div class="panel"><h3>Acesso rápido</h3><div class="quick"><button id="addQuick">＋ Nova ficha de ave <span>Identificação e avaliação</span></button><button id="pedigree">Árvore genealógica <span>Pais, avós e bisavós</span></button><button id="repro">Reprodução <span>Casais, ovos e nascimentos</span></button><button id="selection">Seleção de casais <span>Comparar qualidades e defeitos</span></button></div><div class="notice"><b>Privacidade:</b> esta demonstração guarda os registos apenas no armazenamento local deste navegador. Ainda não existe conta, sincronização cloud ou partilha entre dispositivos.</div></div></section>
+</main>
+<div class="modal" id="modal"><div class="dialog"><div class="dialog-head"><h2>Registar novo exemplar</h2><button class="close" id="close">Fechar ✕</button></div><form id="birdForm"><div class="formgrid">
+<div class="field"><label>Raça *</label><select id="breed" required><option value="Yorkshire">Yorkshire</option><option value="Border">Border</option><option value="Outra">Outra</option></select></div>
+<div class="field"><label>Ano de nascimento *</label><input id="year" type="number" min="2000" max="2100" value="2026" required></div>
+<div class="field"><label>Número sequencial *</label><input id="number" type="number" min="1" placeholder="Ex.: 1" required></div>
+<div class="field"><label>Código automático</label><input id="code" readonly placeholder="Será gerado automaticamente"></div>
+<div class="field"><label>Número de anilha</label><input id="ring" placeholder="Número oficial da anilha"></div>
+<div class="field"><label>Sexo</label><select id="sex"><option>Por determinar</option><option>Macho</option><option>Fêmea</option></select></div>
+<div class="field"><label>Estado</label><select id="status"><option>Jovem</option><option>Reprodutor</option><option>Reformado</option><option>Vendido</option></select></div>
+<div class="field"><label>Nome / identificação interna</label><input id="nickname" placeholder="Opcional"></div>
+<div class="field"><label>Código do pai</label><input id="father" placeholder="Ex.: Y-2025-012"></div>
+<div class="field"><label>Código da mãe</label><input id="mother" placeholder="Ex.: Y-2025-035"></div>
+<div class="field full"><label>Fotografias (uma ou várias)</label><input id="photos" type="file" accept="image/*" multiple></div>
+<div class="field full"><label>Observações, pontos fortes e defeitos</label><textarea id="notes" rows="3" placeholder="Descreve características, qualidades e aspetos a melhorar…"></textarea></div>
+</div><h3 class="subhead">Avaliação morfológica (1 a 10)</h3><div class="scoregrid" id="scores"></div><div class="actions"><button type="button" class="secondary" id="cancel">Cancelar</button><button type="submit">Guardar ave</button></div></form></div></div>
+<script>
+const $=id=>document.getElementById(id);let birds=JSON.parse(localStorage.getItem('gdc_birds')||'[]');
+const scoreNames=['Postura','Cabeça','Corpo / forma','Tamanho','Plumagem','Condição geral'];
+$('scores').innerHTML=scoreNames.map((n,i)=>`<div class="field"><label>${n}</label><input type="number" min="1" max="10" value="5" id="score${i}"></div>`).join('');
+function codePreview(){const b=$('breed').value,y=$('year').value,n=String($('number').value||'').padStart(3,'0');$('code').value=(b==='Yorkshire'?'Y':b==='Border'?'B':'O')+'-'+y+'-'+n;}
+$('breed').addEventListener('change',codePreview);$('year').addEventListener('input',codePreview);$('number').addEventListener('input',codePreview);
+function avg(a){let v=a.filter(x=>x!==null&&x!==undefined);return v.length?(v.reduce((x,y)=>x+y,0)/v.length).toFixed(1):'—'}
+function render(){let f=$('breedFilter').value,q=$('search').value.toLowerCase();let shown=birds.filter(b=>(f==='Todas'||b.breed===f)&&[b.code,b.ring,b.nickname].join(' ').toLowerCase().includes(q));$('total').textContent=birds.length;$('york').textContent=birds.filter(b=>b.breed==='Yorkshire').length;$('border').textContent=birds.filter(b=>b.breed==='Border').length;$('breeders').textContent=birds.filter(b=>b.status==='Reprodutor').length;$('birds').innerHTML=shown.length?shown.map(b=>`<div class="bird-card"><div class="avatar">${b.breed==='Yorkshire'?'🐤':b.breed==='Border'?'🐦':'🐣'}</div><div class="bird-info"><strong>${b.code} ${b.nickname? '· '+esc(b.nickname):''}</strong><small>${b.breed} · ${b.sex} · ${b.status}${b.ring?' · Anilha '+esc(b.ring):''}</small></div><div class="bird-score">${avg(b.scores)}/10</div><button class="danger" onclick="removeBird('${b.id}')" title="Apagar">×</button></div>`).join(''):'<div class="empty">Não foram encontrados exemplares.</div>';}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function openModal(){$('modal').classList.add('open');codePreview()}function closeModal(){$('modal').classList.remove('open')}
+['addTop','addQuick'].forEach(id=>$(id).onclick=openModal);['close','cancel'].forEach(id=>$(id).onclick=closeModal);$('search').oninput=render;$('breedFilter').onchange=render;
+$('birdForm').onsubmit=async e=>{e.preventDefault();let code=$('code').value;if(birds.some(b=>b.code===code)){alert('Este código já existe. Escolhe outro número sequencial.');return;}let files=[...$('photos').files];let photos=[];for(let file of files){if(file.size>1200000){alert('Cada fotografia deve ter até 1,2 MB neste protótipo.');return;}photos.push(await new Promise(res=>{let r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file)}));}let scores=scoreNames.map((_,i)=>Math.max(1,Math.min(10,Number($('score'+i).value)||1)));birds.push({id:crypto.randomUUID(),breed:$('breed').value,year:$('year').value,number:$('number').value,code,ring:$('ring').value,sex:$('sex').value,status:$('status').value,nickname:$('nickname').value,father:$('father').value,mother:$('mother').value,notes:$('notes').value,scores,photos,created:new Date().toISOString()});localStorage.setItem('gdc_birds',JSON.stringify(birds));e.target.reset();$('year').value=2026;scoreNames.forEach((_,i)=>$('score'+i).value=5);closeModal();render();};
+window.removeBird=id=>{if(confirm('Apagar este registo?')){birds=birds.filter(b=>b.id!==id);localStorage.setItem('gdc_birds',JSON.stringify(birds));render()}};
+['pedigree','repro','selection'].forEach(id=>$(id).onclick=()=>alert('Esta área está planeada para a próxima fase. A estrutura será ligada às fichas e aos códigos dos progenitores.'));
+render();
+</script>
+<script>
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  if (installBtn) installBtn.style.display = 'inline-block';
+});
+if (installBtn) installBtn.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) {
+    alert('Para instalar: abre o menu do navegador e escolhe “Adicionar ao ecrã inicial” ou “Instalar aplicação”.');
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installBtn.style.display = 'none';
+});
+window.addEventListener('appinstalled', () => {
+  if (installBtn) installBtn.style.display = 'none';
+});
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.error));
+}
+</script>
+</body></html>
